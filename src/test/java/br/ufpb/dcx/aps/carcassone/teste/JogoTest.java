@@ -69,7 +69,9 @@ public class JogoTest {
 	 * 
 	 * Verifica os relatórios da partida logo após o seu início. O status da partida
 	 * é Em_Andamento. As cores dos jogadores aparecem no formato: COR1(PONTUACAO,
-	 * MEEPLES DISPONÍVEIS); COR2(... O status do turno deve ser Início_Turno,
+	 * MEEPLES DISPONÍVEIS); COR2(... 
+	 * 
+	 * O status do turno deve ser Início_Turno,
 	 * também devem ser mostrados o primeiro jogador e o tile deste turno, que é o 
 	 * primeiro tile é posicionado automaticamente na criação da partida. 
 	 * O tabuleiro deve conter a peça inicial na posição norte
