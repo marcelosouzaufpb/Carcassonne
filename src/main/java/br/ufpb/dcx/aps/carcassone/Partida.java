@@ -23,14 +23,7 @@ public class Partida {
 	}
 
 	public String relatorioPartida() {
-		String sequencia = "";
-
-		for (int i = 0; i < jogador.length - 1; i++) {
-			sequencia += jogador[i].toString() + "; ";
-		}
-
-		sequencia += jogador[jogador.length - 1];
-		String relatorio = "Status: " + estadoDaPartida + "\nJogadores: " + sequencia;
+		String relatorio = "Status: " + estadoDaPartida + "\nJogadores: " + relatorioJogador();
 		return relatorio;
 	}
 
@@ -106,13 +99,22 @@ public class Partida {
 		return tabuleiro.toString();
 	}
 
+	public String relatorioJogador() {
+		String sequencia = "";
+		for (int i = 0; i < jogador.length - 1; i++) {
+			sequencia += jogador[i].toString() + "; ";
+		}
+		sequencia += jogador[jogador.length - 1];
+		return sequencia;
+	}
+
 	public void atribuirCorAJogador(Cor... sequencia) {
 		jogador = new Jogador[sequencia.length];
 		for (int i = 0; i < sequencia.length; ++i) {
 			jogador[i] = new Jogador(sequencia[i]);
 		}
 	}
-	
+
 	public void verificaTileNulo() {
 		if (proximoTile == null) {
 			estadoDaPartida = Estado.PARTIDA_FINALIZADA;
