@@ -37,6 +37,7 @@ public class Partida {
 	}
 
 	public String relatorioTurno() {
+		verificarFimDaPartida();
 		Jogador proximoJogador = jogador[indiceJogadorVez % jogador.length];
 		String relatorio = "Jogador: " + proximoJogador.getCor() + "\nTile: " + proximoTile + "\nStatus: "
 				+ estadoDoTurno;
@@ -50,11 +51,14 @@ public class Partida {
 
 	private void pegarProximoTile() {
 		proximoTile = tiles.pegar();
-		proximoTile.reset();
+		if (proximoTile != null) {
+			proximoTile.reset();
+		}
 	}
 
 	public Partida finalizarTurno() {
 		pegarProximoTile();
+		estadoDaPartida = Estado.PARTIDA_FINALIZADA;
 		return this;
 	}
 
@@ -103,6 +107,13 @@ public class Partida {
 	public void verificarTilePosicionado() {
 		if (estadoDoTurno == Estado.TILE_POSICIONADO) {
 			throw new ExcecaoJogo("Não pode reposicionar tile já posicionado");
+		}
+	}
+
+	public void verificarFimDaPartida() {
+		if (proximoTile == null) {
+			estadoDaPartida = Estado.PARTIDA_FINALIZADA;
+			throw new ExcecaoJogo("Partida finalizada");
 		}
 	}
 }
