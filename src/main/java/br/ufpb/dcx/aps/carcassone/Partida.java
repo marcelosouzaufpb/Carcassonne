@@ -16,15 +16,10 @@ public class Partida {
 	Partida(BolsaDeTiles tiles, Cor... sequencia) {
 		this.tiles = tiles;
 		pegarProximoTile();
-
-		jogador = new Jogador[sequencia.length];
-		for (int i = 0; i < sequencia.length; ++i) {
-			jogador[i] = new Jogador(sequencia[i]);
-		}
+		atribuirCorAJogador(sequencia);
 		estadoDaPartida = Estado.PARTIDA_ANDAMENTO;
 		tabuleiro.adicionarPrimeiroTile(proximoTile);
-		
-		
+
 	}
 
 	public String relatorioPartida() {
@@ -112,7 +107,14 @@ public class Partida {
 	public String relatorioTabuleiro() {
 		return tabuleiro.toString();
 	}
-	
+
+	public void atribuirCorAJogador(Cor... sequencia) {
+		jogador = new Jogador[sequencia.length];
+		for (int i = 0; i < sequencia.length; ++i) {
+			jogador[i] = new Jogador(sequencia[i]);
+		}
+	}
+
 	public void verificarTilePosicionado() {
 		if (estadoDoTurno == Estado.TILE_POSICIONADO) {
 			throw new ExcecaoJogo("Não pode reposicionar tile já posicionado");
