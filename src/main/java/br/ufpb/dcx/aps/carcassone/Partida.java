@@ -21,19 +21,22 @@ public class Partida {
 		for (int i = 0; i < sequencia.length; ++i) {
 			jogador[i] = new Jogador(sequencia[i]);
 		}
-
 		estadoDaPartida = Estado.PARTIDA_ANDAMENTO;
 		tabuleiro.adicionarPrimeiroTile(proximoTile);
+		
+		
 	}
 
 	public String relatorioPartida() {
-		String relatorio = "";
-		for (int i = 0; i < jogador.length - 1; i++) {
-			relatorio += jogador[i].toString() + "; ";
-		}
-		relatorio += jogador[jogador.length - 1];
+		String sequencia = "";
 
-		return "Status: " + estadoDaPartida + "\nJogadores: " + relatorio;
+		for (int i = 0; i < jogador.length - 1; i++) {
+			sequencia += jogador[i].toString() + "; ";
+		}
+
+		sequencia += jogador[jogador.length - 1];
+		String relatorio = "Status: " + estadoDaPartida + "\nJogadores: " + sequencia;
+		return relatorio;
 	}
 
 	public String relatorioTurno() {
@@ -45,6 +48,9 @@ public class Partida {
 	}
 
 	public Partida girarTile() {
+		if (estadoDoTurno == Estado.TILE_POSICIONADO) {
+			throw new ExcecaoJogo("Não pode girar tile já posicionado");
+		}
 		proximoTile.girar();
 		return this;
 	}
@@ -58,7 +64,10 @@ public class Partida {
 
 	public Partida finalizarTurno() {
 		pegarProximoTile();
-		estadoDaPartida = Estado.PARTIDA_FINALIZADA;
+		estadoDoTurno = Estado.TURNO_INICIO;
+		if (proximoTile == null) {
+			estadoDaPartida = Estado.PARTIDA_FINALIZADA;
+		}
 		return this;
 	}
 
@@ -103,7 +112,7 @@ public class Partida {
 	public String relatorioTabuleiro() {
 		return tabuleiro.toString();
 	}
-
+	
 	public void verificarTilePosicionado() {
 		if (estadoDoTurno == Estado.TILE_POSICIONADO) {
 			throw new ExcecaoJogo("Não pode reposicionar tile já posicionado");
