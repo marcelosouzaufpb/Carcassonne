@@ -60,9 +60,7 @@ public class Partida {
 	public Partida finalizarTurno() {
 		pegarProximoTile();
 		estadoDoTurno = Estado.TURNO_INICIO;
-		if (proximoTile == null) {
-			estadoDaPartida = Estado.PARTIDA_FINALIZADA;
-		}
+		verificaTileNulo();
 		return this;
 	}
 
@@ -112,6 +110,12 @@ public class Partida {
 		jogador = new Jogador[sequencia.length];
 		for (int i = 0; i < sequencia.length; ++i) {
 			jogador[i] = new Jogador(sequencia[i]);
+		}
+	}
+	
+	public void verificaTileNulo() {
+		if (proximoTile == null) {
+			estadoDaPartida = Estado.PARTIDA_FINALIZADA;
 		}
 	}
 
