@@ -24,6 +24,7 @@ public class Partida {
 
 	public String relatorioPartida() {
 		String relatorio = "Status: " + estadoDaPartida + "\nJogadores: " + relatorioJogador();
+		
 		return relatorio;
 	}
 
@@ -65,6 +66,7 @@ public class Partida {
 	public Partida posicionarTile(Tile tileReferencia, Lado ladoTileReferencia) {
 		verificarTilePosicionado();
 		tabuleiro.posicionar(tileReferencia, ladoTileReferencia, proximoTile);
+		estadoDoTurno = Estado.TILE_POSICIONADO;
 		return this;
 	}
 
