@@ -2,7 +2,3 @@
 .project
 .settings/
 target
-/.gitignore
-/TestList.txt
-/pom.xml
-/src/
