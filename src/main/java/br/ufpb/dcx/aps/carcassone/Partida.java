@@ -11,7 +11,7 @@ public class Partida {
 	Estado estadoDoTurno = Estado.TILE_POSICIONADO; // Variável responsável pelo estado em que o turno se encontra
 	Estado estadoDaPartida; // Variável responsável pelo estado da partida se encontra
 	Jogador[] jogadores; // Vetor com os jogadores da partida
-	int indiceJogadorVez = 0; // Índice que representa o jogador da vez
+	int indiceDoJogador = 0; // Índice que representa o jogador da vez
 
 	/*
 	 * Construtor que inicializa a partida atribuindo a cada jogar sua respectiva
@@ -40,7 +40,7 @@ public class Partida {
 	// Função que retorna a cor do jogador o tilo colocado e o estado
 	public String relatorioTurno() {
 		verificarFimDaPartida();
-		Jogador proximoJogador = jogadores[indiceJogadorVez % jogadores.length];
+		Jogador proximoJogador = jogadores[indiceDoJogador % jogadores.length];
 		// String que retorna o relatório do tudo
 		String relatorio = "Jogador: " + proximoJogador.getCor() + "\nTile: " + proximoTile + "\nStatus: "
 				+ estadoDoTurno;
@@ -86,7 +86,7 @@ public class Partida {
 	 */
 	public Partida finalizarTurno() {
 		pegarProximoTile();
-		indiceJogadorVez++;
+		indiceDoJogador++;
 		estadoDoTurno = Estado.TURNO_INICIO;
 		verificaTileNulo();
 		return this;
