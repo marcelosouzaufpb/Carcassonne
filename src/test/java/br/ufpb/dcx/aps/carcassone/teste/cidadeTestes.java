@@ -208,6 +208,23 @@ public class cidadeTestes extends JogoTest {
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(0,7)");
 	}
+	
+	/**
+	 * Caso de teste 08 Pontuacao para uma cidade
+	 */
+	public void cidadeFechadaComMeeple() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		girar(partida, 1);
+
+		partida.posicionarTile(t30, NORTE);
+		partida.posicionarMeepleCidade(SUL);
+		ocorreExcecaoJogo (() ->  partida.finalizarTurno(),
+		"O turno nao pode ser finalizado pois a uma cidade fechada e um meeple nela!");
+		Assert.assertEquals("(30(N) 11(N,S-AMARELO)", partida.getCidades());
+
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,6); VERMELHOR(0,7)");
+	}
 
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
 		ocorreExcecao(et).tipoExcecao(ExcecaoJogo.class).mensagem(mensagem);
