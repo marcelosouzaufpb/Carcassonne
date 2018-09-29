@@ -242,6 +242,23 @@ public class cidadeTestes extends JogoTest {
 		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
 	}
+	
+	/**
+	 * Caso de teste 10 Pontuacao para uma cidade onde um dos jogadores tem mais meeples que o outro na cidade
+	 */
+	public void pontuacaoParaCidadeOndeUmJogadorTemMaisMeeplesNaCidade() {
+		mockarTiles(tiles, t06,t02,t42 );
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.posicionarMeepleCidade(SUL);//Jogador 1 posiciona meeple amarelo
+		partida.posicionarTile(t06, NORTE);
+		partida.posicionarMeepleCidade(NORTE);//Jogador 2 posiciona meeple vermelho
+		partida.posicionarTile(t02, OESTE);
+		partida.posicionarMeepleCidade(OESTE);//Jogador 1 posiciona meeple amarelo
+		Assert.assertEquals("(06(S,S-AMARELO) 02(N) 42(O,O-VERMELHO) ", partida.getCidades());
+		ocorreExcecaoJogo (() ->  partida.finalizarTurno(),
+				"Ao finalizar turno nao retrou o meeple");
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(0,7)");
+	}
 
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
 		ocorreExcecao(et).tipoExcecao(ExcecaoJogo.class).mensagem(mensagem);
