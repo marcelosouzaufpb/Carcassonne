@@ -91,8 +91,8 @@ public class cidadeTestes extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 03 Verificar estrada 
-	 * antes e depois de colocar Meeple em uma cidade
+	 * Caso de tese 03 Verificar estrada antes e depois de colocar Meeple em uma
+	 * cidade
 	 */
 	@Test
 	public void verificarCidade2() {
@@ -119,6 +119,29 @@ public class cidadeTestes extends JogoTest {
 		for (int i = 0; i < quantidade; i++) {
 			partida.girarTile();
 		}
+	}
+
+	/**
+	 * Caso de teste 04 Cidade com dois tiles e um meeple
+	 */
+	@Test
+	public void cidaeComDoisTilesMeeple() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		girar(partida, 1);
+
+		partida.posicionarTile(t30, NORTE);
+		Assert.assertEquals("30(N) 11(N,S)", partida.getCidades());
+
+		partida.posicionarMeepleCidade(SUL);
+		Assert.assertEquals("30(N) 11(N,S-AMARELO)", partida.getCidades());
+
+		partida.finalizarTurno();
+		Assert.assertEquals("30(N) 11(N,S-AMARELO)", partida.getCidades());
+
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,6); VERMELHO(0,7)");
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+		verificarRelatorioTabuleiro(partida, "30N11S");
 	}
 
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
