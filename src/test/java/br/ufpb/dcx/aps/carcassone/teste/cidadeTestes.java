@@ -72,8 +72,8 @@ public class cidadeTestes extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 02 Verificar cidade antes e 
-	 * depois de colocar Meeple em uma cidade
+	 * Caso de tese 02 Verificar cidade antes e depois de colocar Meeple em uma
+	 * cidade
 	 */
 	@Test
 	public void verificarCidade() {
@@ -88,6 +88,31 @@ public class cidadeTestes extends JogoTest {
 		Assert.assertEquals("11(N,S) t30(N)", partida.getCidades());
 		partida.posicionarMeepleCidade(NORTE);
 		Assert.assertEquals("11(N,S) t30(N-VERMELHO)", partida.getCidades());
+	}
+
+	/**
+	 * Caso de tese 03 Verificar estrada 
+	 * antes e depois de colocar Meeple em uma cidade
+	 */
+	@Test
+	public void verificarCidade2() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+		girar(partida, 1);
+
+		partida.posicionarTile(t30, NORTE);
+		Assert.assertEquals("30(N) 11(N,S)", partida.getCidades());
+
+		partida.posicionarMeepleCidade(SUL);
+		Assert.assertEquals("30(N) 11(N,S-AMARELO)", partida.getCidades());
+
+		partida.finalizarTurno();
+		Assert.assertEquals("30(N) 11(N,S-AMARELO)", partida.getCidades());
+
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,6); VERMELHO(0,7)");
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+		verificarRelatorioTabuleiro(partida, "30N11S");
 	}
 
 	private void girar(Partida partida, int quantidade) {
