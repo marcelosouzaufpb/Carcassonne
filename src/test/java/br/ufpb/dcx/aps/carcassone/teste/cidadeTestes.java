@@ -19,6 +19,7 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t10;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t11;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t29;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t30;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t42;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t43;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t49;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t51;
@@ -208,7 +209,7 @@ public class cidadeTestes extends JogoTest {
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(0,7)");
 	}
-	
+
 	/**
 	 * Caso de teste 08 Pontuacao para uma cidade
 	 */
@@ -219,11 +220,27 @@ public class cidadeTestes extends JogoTest {
 
 		partida.posicionarTile(t30, NORTE);
 		partida.posicionarMeepleCidade(SUL);
-		ocorreExcecaoJogo (() ->  partida.finalizarTurno(),
-		"O turno nao pode ser finalizado pois a uma cidade fechada e um meeple nela!");
+		ocorreExcecaoJogo(() -> partida.finalizarTurno(),
+				"O turno nao pode ser finalizado pois a uma cidade fechada e um meeple nela!");
 		Assert.assertEquals("(30(N) 11(N,S-AMARELO)", partida.getCidades());
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,6); VERMELHOR(0,7)");
+	}
+
+	/**
+	 * Caso de teste 09 Pontuacao para uma cidade com empate de meeples dos
+	 * jogadores
+	 */
+	public void pontuacaoParaCidadeComEmpateDeQuantidadeDeMeeples() {
+		mockarTiles(tiles, t06, t02, t42);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.posicionarMeepleCidade(SUL);// Jogador 1 posiciona meeple amarelo
+		partida.posicionarTile(t06, NORTE);
+		partida.posicionarTile(t02, OESTE);
+		partida.posicionarMeepleCidade(OESTE);// Jogador 2 posiciona meeple vermelho
+		Assert.assertEquals("(06(S,S-AMARELO) 02(N) 42(O,O-VERMELHO) ", partida.getCidades());
+		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
 	}
 
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
