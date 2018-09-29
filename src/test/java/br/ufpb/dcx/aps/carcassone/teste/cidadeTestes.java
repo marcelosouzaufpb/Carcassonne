@@ -61,7 +61,7 @@ public class cidadeTestes extends JogoTest {
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
 		girar(partida, 1);
-		
+
 		partida.posicionarTile(t30, NORTE);
 
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(LESTE),
@@ -69,6 +69,25 @@ public class cidadeTestes extends JogoTest {
 
 		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(OESTE),
 				"Impossível posicionar meeple em cidade pois o lado oeste do tile 11 é Campo");
+	}
+
+	/**
+	 * Caso de tese 02 Verificar cidade antes e 
+	 * depois de colocar Meeple em uma cidade
+	 */
+	@Test
+	public void verificarCidade() {
+		mockarTiles(tiles, t11, t30);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+
+		Assert.assertEquals("11(N,S)", partida.getCidades());
+
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(NORTE), "Impossível posicionar meeple na peça inicial");
+
+		partida.posicionarTile(t11, SUL);
+		Assert.assertEquals("11(N,S) t30(N)", partida.getCidades());
+		partida.posicionarMeepleCidade(NORTE);
+		Assert.assertEquals("11(N,S) t30(N-VERMELHO)", partida.getCidades());
 	}
 
 	private void girar(Partida partida, int quantidade) {
