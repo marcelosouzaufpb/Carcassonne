@@ -28,7 +28,9 @@ public class TabuleiroFlexivel {
 		celulaInicial = new CelulaTabuleiro(tile, 0, 0);
 		extremoNorte = extremoLeste = extremoSul = extremoOeste = celulaInicial;
 	}
-
+	
+	//Verificar o lado tile em que o usuário deseja posicionar um novo tile.
+	
 	public void posicionar(Tile tileReferencia, Lado ladoTileReferencia, Tile novoTile) {
 		CelulaTabuleiro celulaReferencia = validarTiles(tileReferencia, novoTile);
 
@@ -69,6 +71,8 @@ public class TabuleiroFlexivel {
 
 		return celulaReferencia;
 	}
+	
+	// Verificar se o norte do tile estar disponível para inserir um novo tile.
 
 	private void posicionarNorte(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
 		celulaOcupada(celulaReferencia, tabuleiro, celulaReferencia.getX(), celulaReferencia.getY() + 1, "NORTE");
@@ -85,6 +89,7 @@ public class TabuleiroFlexivel {
 			extremoNorte = novaCelula;
 		}
 	}
+	// Verificar se o leste do tile estar disponível para inserir um novo tile. 
 
 	private void posicionarLeste(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
 		celulaOcupada(celulaReferencia, tabuleiro, celulaReferencia.getX() + 1, celulaReferencia.getY(), "LESTE");
@@ -101,6 +106,7 @@ public class TabuleiroFlexivel {
 			extremoLeste = novaCelula;
 		}
 	}
+	// Verificar se o sul do tile estar disponível para inserir um novo tile.
 
 	private void posicionarSul(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
 		celulaOcupada(celulaReferencia, tabuleiro, celulaReferencia.getX(), celulaReferencia.getY() - 1, "SUL");
@@ -117,6 +123,7 @@ public class TabuleiroFlexivel {
 			extremoSul = novaCelula;
 		}
 	}
+	// Verificar se o oeste do tile estar disponível para inserir um novo tile.
 
 	private void posicionarOeste(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
 		celulaOcupada(celulaReferencia, tabuleiro, celulaReferencia.getX() - 1, celulaReferencia.getY(), "OESTE");
@@ -153,6 +160,8 @@ public class TabuleiroFlexivel {
 					+ " já está ocupada pelo tile " + tabuleiro[xAjustado][yAjustado].getTile().getId());
 		}
 	}
+	
+	// Verificar se os tiles são compatíveis.
 
 	private void verificarTipoLado(Tile tileNovo, Tile tileReferencia, String ladoReferencia,
 			TipoLado tipoLadoReferencia, String ladoNovo, TipoLado tipoLadoNovo) {
@@ -211,6 +220,7 @@ public class TabuleiroFlexivel {
 
 	@Override
 	public String toString() {
+		
 		if (extremoLeste == null) {
 			return "";
 		}

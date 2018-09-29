@@ -113,6 +113,7 @@ public class Partida {
 	}
 
 	public Partida posicionarMeepleCidade(Lado lado) {
+		/***/
 		return this;
 	}
 
@@ -129,6 +130,7 @@ public class Partida {
 	}
 
 	public String getCidades() {
+		/***/
 		return null;
 	}
 
