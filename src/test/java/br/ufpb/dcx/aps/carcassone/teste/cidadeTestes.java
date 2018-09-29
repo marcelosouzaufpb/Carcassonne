@@ -144,6 +144,31 @@ public class cidadeTestes extends JogoTest {
 		verificarRelatorioTabuleiro(partida, "30N11S");
 	}
 
+	/**
+	 * Caso de teste 05 Cidade desconexas com meeple
+	 */
+	@Test
+	public void cidadeDesconexasMeeple() {
+		mockarTiles(tiles, t30, t06, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		girar(partida, 1);
+
+		ocorreExcecaoJogo(() -> partida.posicionarTile(t30, SUL),
+				"Impossível posicionar tile pois o lado sul do tile 30 é Campo");
+		partida.finalizarTurno();
+
+		partida.posicionarTile(t30, NORTE);
+		Assert.assertEquals("30(N) 11(N,S)", partida.getCidades());
+
+		partida.posicionarMeepleCidade(NORTE);
+		Assert.assertEquals("30(N))", partida.getCidades());
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHO(0,6)");
+		verificarRelatorioTurno(partida, "VERMELHO", "11S", "Meeple_Posicionado");
+		verificarRelatorioTabuleiro(partida, "30N11S");
+
+	}
+
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
 		ocorreExcecao(et).tipoExcecao(ExcecaoJogo.class).mensagem(mensagem);
 	}
