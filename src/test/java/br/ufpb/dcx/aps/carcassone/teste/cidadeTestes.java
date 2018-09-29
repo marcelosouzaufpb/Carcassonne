@@ -169,6 +169,30 @@ public class cidadeTestes extends JogoTest {
 
 	}
 
+	/**
+	 * Caso de teste 06 Posicionar meeple em cidade já ocupada
+	 */
+	@Test
+	public void posicionarMeepleEmCidadeOcupada() {
+		mockarTiles(tiles, t11, t06, t43);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		girar(partida, 1);
+
+		partida.posicionarTile(t11, SUL);
+		partida.posicionarMeepleCidade(SUL);
+		partida.finalizarTurno();
+		Assert.assertEquals("11(N,S-AMARELO) 06(N,L)", partida.getEstradas());
+
+		partida.posicionarTile(t06, LESTE);
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(LESTE),
+				"Impossível posicionar meeple pois a cidade já está ocupada pelo meeple AMARELO no lado Norte do tile 06");
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHO(0,7)");
+		verificarRelatorioTurno(partida, "AMARELO", "11L", "Tile_Posicionado");
+		verificarRelatorioTabuleiro(partida, "11S06NL43O");
+
+	}
+
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
 		ocorreExcecao(et).tipoExcecao(ExcecaoJogo.class).mensagem(mensagem);
 	}
