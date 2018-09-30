@@ -17,14 +17,17 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t02;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t06;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t10;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t11;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t24;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t29;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t30;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t31;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t42;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t43;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t49;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t51;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t52;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t64;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t72;
 import static br.ufpb.dcx.aps.carcassone.teste.Assertiva.ocorreExcecao;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -197,6 +200,7 @@ public class cidadeTestes extends JogoTest {
 	/**
 	 * Caso de teste 07 Pontuacao para uma cidade
 	 */
+	@Test
 	public void pontuacaoParaUmaCidade() {
 		mockarTiles(tiles, t30, t11);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
@@ -213,6 +217,7 @@ public class cidadeTestes extends JogoTest {
 	/**
 	 * Caso de teste 08 Pontuacao para uma cidade
 	 */
+	@Test
 	public void cidadeFechadaComMeeple() {
 		mockarTiles(tiles, t30, t11);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
@@ -231,6 +236,7 @@ public class cidadeTestes extends JogoTest {
 	 * Caso de teste 09 Pontuacao para uma cidade com empate de meeples dos
 	 * jogadores
 	 */
+	@Test
 	public void pontuacaoParaCidadeComEmpateDeQuantidadeDeMeeples() {
 		mockarTiles(tiles, t06, t02, t42);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
@@ -242,22 +248,57 @@ public class cidadeTestes extends JogoTest {
 		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
 	}
-	
+
 	/**
-	 * Caso de teste 10 Pontuacao para uma cidade onde um dos jogadores tem mais meeples que o outro na cidade
+	 * Caso de teste 10 Pontuacao para uma cidade onde um dos jogadores tem mais
+	 * meeples que o outro na cidade
 	 */
+	@Test
 	public void pontuacaoParaCidadeOndeUmJogadorTemMaisMeeplesNaCidade() {
-		mockarTiles(tiles, t06,t02,t42 );
+		mockarTiles(tiles, t06, t02, t42);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		partida.posicionarMeepleCidade(SUL);//Jogador 1 posiciona meeple amarelo
+		partida.posicionarMeepleCidade(SUL);// Jogador 1 posiciona meeple amarelo
 		partida.posicionarTile(t06, NORTE);
-		partida.posicionarMeepleCidade(NORTE);//Jogador 2 posiciona meeple vermelho
+		partida.posicionarMeepleCidade(NORTE);// Jogador 2 posiciona meeple vermelho
 		partida.posicionarTile(t02, OESTE);
-		partida.posicionarMeepleCidade(OESTE);//Jogador 1 posiciona meeple amarelo
+		partida.posicionarMeepleCidade(OESTE);// Jogador 1 posiciona meeple amarelo
 		Assert.assertEquals("(06(S,S-AMARELO) 02(N) 42(O,O-VERMELHO) ", partida.getCidades());
-		ocorreExcecaoJogo (() ->  partida.finalizarTurno(),
-				"Ao finalizar turno nao retrou o meeple");
+		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(0,7)");
+	}
+
+	/**
+	 * Caso de teste 11 cidade pertencente a 2 jogadores
+	 */
+	@Test
+	public void cidadeDeDoisJogadores() {
+		mockarTiles(tiles, t30, t31, t24, t72, t01);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.posicionarTile(t30, NORTE);
+		partida.posicionarMeepleCidade(SUL);
+		partida.finalizarTurno();
+
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		partida.posicionarTile(t30, LESTE);
+		partida.finalizarTurno();
+
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		partida.posicionarTile(t24, SUL);
+		partida.posicionarMeepleCidade(NORTE);
+		partida.finalizarTurno();
+
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		partida.posicionarTile(t31, LESTE);
+		partida.finalizarTurno();
+
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		Assert.assertEquals("30(N) 11(S-AMARELO,L) 24(N-VERMELHO) 01(N,L,S,O )", partida.getCidades());
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(8,6); VERMELHO(8,6)");
+
 	}
 
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
