@@ -4,9 +4,14 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.AMARELO;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.LESTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.NORTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.OESTE;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.SUL;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.VERMELHO;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t06;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t11;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t30;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t39;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t43;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t64;
 import static br.ufpb.dcx.aps.carcassone.teste.Assertiva.ocorreExcecao;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -75,7 +80,32 @@ public class TestC extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 03 Verificar cidade antes e depois de colocar um Meeple em uma
+	 * Caso de teste 03 Cidade com 2 tiles e um meeple cidade.
+	 *
+	 * Esse teste faz a comparacao do final da partida
+	 */
+
+	@Test
+	public void cidaeComDoisTilesMeeple() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
+		partida.posicionarTile(t30, NORTE);
+		partida.finalizarTurno();
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		partida.posicionarMeepleCidade(SUL);
+		partida.finalizarTurno();
+		verificarRelatorioTurno(partida, "VERMELHO", "11S", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
+		verificarRelatorioTabuleiro(partida, "11S\n30N");
+
+	}
+
+	/**
+	 * Caso de tese 04 Verificar cidade antes e depois de colocar um Meeple em uma
 	 * cidade.
 	 */
 
@@ -86,10 +116,10 @@ public class TestC extends JogoTest {
 		partida.finalizarTurno();
 
 		Assert.assertEquals("30(NO,NE)", partida.getCidades());
-
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
+
 		partida.posicionarMeepleCidade(NORTE);
-		verificarRelatorioTurno(partida, "AMARELO", "30N", "Tile_Posicionado");
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
 		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
@@ -98,7 +128,106 @@ public class TestC extends JogoTest {
 
 		Assert.assertEquals("11(NO,NE)\\N11(SO,SE) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(8,6); VERMELHOR(0,7)");
-		verificarRelatorioTabuleiro(partida, "30N11S");
+		verificarRelatorioTabuleiro(partida, "11S\n30N");
+
+	}
+
+	/**
+	 * Caso de tese 05 Verificar cidades antes e depois de colocar um Meeple em uma
+	 * cidade.
+	 * 
+	 * Esse caso de teste faz a verificacao para 2 jogadores o anterior so fazia
+	 * para um jogador.
+	 */
+
+	@Test
+	public void verificaCidade2() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
+		Assert.assertEquals("30(NO,NE)", partida.getCidades());
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
+
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7)");
+		partida.finalizarTurno();
+
+		partida.posicionarTile(t30, NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
+		partida.posicionarMeepleCidade(SUL);
+		verificarRelatorioTurno(partida, "VERMELHO", "11S", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,6)");
+		partida.finalizarTurno();
+
+		Assert.assertEquals("11(NO,NE)\\N11(SO-VERMELHO,SE-VERMELHO) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHO(0,6)");
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+		verificarRelatorioTabuleiro(partida, "11S\n30N");
+
+	}
+
+	/**
+	 * Caso de teste 06 Jogador com varias cidades
+	 * 
+	 * Esse caso de teste testa quando um jogador tem varias cidades.
+	 */
+
+	public void jogadorComDuasCidades() {
+		mockarTiles(tiles, t30, t11, t64, t39);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7)");
+		partida.finalizarTurno();
+
+		partida.posicionarTile(t30, NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "11N", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,6)");
+		partida.finalizarTurno();
+
+		girar(partida, 1);
+		partida.posicionarTile(t30, LESTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30L", "Tile_Posicionado");
+		partida.finalizarTurno();
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+
+		partida.posicionarTile(t64, LESTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "64L", "Tile_Posicionado");
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "39N", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,5)");
+		partida.finalizarTurno();
+
+		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
+		verificarRelatorioTabuleiro(partida, "11S\n30L64L39N");
+	}
+
+	/**
+	 * Caso de teste 07 Posicionar meeple em cidade já ocupada
+	 */
+	@Test
+	public void posicionarMeepleEmCidadeOcupada() {
+		mockarTiles(tiles, t30, t11);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7)");
+		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
+		partida.finalizarTurno();
+
+		partida.posicionarTile(t30, NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(SUL),
+				"Impossível posicionar meeple pois a cidade já está ocupada pelo meeple AMARELO no lado SUL do tile 11");
 
 	}
 

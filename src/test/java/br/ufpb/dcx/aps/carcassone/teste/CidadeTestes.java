@@ -83,7 +83,7 @@ public class CidadeTestes extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 03 Verificar estrada antes e depois de colocar Meeple em uma
+	 * Caso de tese 03 Verificar cidade antes e depois de colocar Meeple em uma
 	 * cidade
 	 */
 	@Test
