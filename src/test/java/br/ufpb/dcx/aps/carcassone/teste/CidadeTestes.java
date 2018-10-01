@@ -32,7 +32,7 @@ import br.ufpb.dcx.aps.carcassone.Jogo;
 import br.ufpb.dcx.aps.carcassone.Partida;
 import br.ufpb.dcx.aps.carcassone.tabuleiro.Tile;
 
-public class cidadeTestes extends JogoTest {
+public class CidadeTestes extends JogoTest {
 
 	private Jogo jogo;
 	private BolsaDeTiles tiles;
