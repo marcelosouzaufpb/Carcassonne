@@ -1,15 +1,18 @@
 package br.ufpb.dcx.aps.carcassone.teste;
 
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.AMARELO;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.VERMELHO;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.PRETO;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.AZUL;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.LESTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.NORTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.OESTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.SUL;
-import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.VERMELHO;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t01;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t02;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t06;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t07;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t08;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t11;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t14;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t19;
@@ -20,6 +23,7 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t24;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t30;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t31;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t34;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t36;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t39;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t42;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t64;
@@ -467,6 +471,40 @@ public class CidadeTeste extends JogoTest {
 		Assert.assertEquals("34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO,NE) 24(NO,NE)", partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "34S14S\n30N24O");
 	}
+
+	/**
+	 * Caso de teste 14 Partida com 3 Jogadores
+	 */
+	public void partidaCom3Jogadores() {
+		mockarTiles(tiles, t30, t24, t08);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO, PRETO);
+		partida.finalizarTurno();
+
+		// Amarelo
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,7); PRETO(0,7);");
+		partida.finalizarTurno();
+		// Vermelho
+		partida.posicionarTile(t30, LESTE);
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,7);");
+		partida.finalizarTurno();
+		// Preto
+		girar(partida, 3);
+		partida.posicionarTile(t24, SUL);
+		partida.posicionarMeepleCidade(SUL);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6);");
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(1,6); VERMELHOR(1,6); PRETO(1,6);");
+		Assert.assertEquals(
+				"30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO) 08(NO-PRETO,SO-PRETO) 08(SO-PRETO,SE-PRETO) 08(SE-PRETO,NE-PRETO)",
+				partida.getCidades());
+		verificarRelatorioTabuleiro(partida, "30L24S\n 08N");
+
+	}
+
+	
 
 	private void girar(Partida partida, int quantidade) {
 		for (int i = 0; i < quantidade; i++) {
