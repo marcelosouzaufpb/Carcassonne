@@ -495,12 +495,16 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 		// Preto
 		girar(partida, 3);
+		//As cidades são ligadas pelos vértices no getCidades mais no tabuleiro elas são ligadas por (N,S,L,O) isso ta correto? O Girar ele é do oeste para leste ?
 		partida.posicionarTile(t24, SUL);
 		partida.posicionarMeepleCidade(SUL);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6);");
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(1,6); VERMELHOR(1,6); PRETO(1,6);");
+		//As cidades se ligam pelos vértices então os tem que colocar todos os vértices?
+		//E os meeples também tem que ser colocados em todos os vértices?
+
 		Assert.assertEquals(
 				"30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO) 08(NO-PRETO,SO-PRETO) 08(SO-PRETO,SE-PRETO) 08(SE-PRETO,NE-PRETO)",
 				partida.getCidades());
