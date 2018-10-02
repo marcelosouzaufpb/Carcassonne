@@ -353,7 +353,8 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "01L", "Tile_Posicionado");
 
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHOR(0,7);");
-		Assert.assertEquals("01(NO-AMARELO,NE-AMARELO) 11(NE,SE) 11(SE,SO) 11(SO,NO) 19(NO,SE) 20(SO,NO) 21(NO,NE) 22(NE,SE) ",
+		Assert.assertEquals(
+				"01(NO-AMARELO,NE-AMARELO) 11(NE,SE) 11(SE,SO) 11(SO,NO) 19(NO,SE) 20(SO,NO) 21(NO,NE) 22(NE,SE) ",
 				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, " 19S\n20L01L21\n 22");
 
@@ -378,7 +379,8 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,6); VERMELHOR(0,6);");
-		Assert.assertEquals("11(NO-AMARELO,NE-AMARELO) 11(SO-VERMELHO,SE-VERMELHO) 42(NO,NE) 42(SO,SE)", partida.getCidades());
+		Assert.assertEquals("11(NO-AMARELO,NE-AMARELO) 11(SO-VERMELHO,SE-VERMELHO) 42(NO,NE) 42(SO,SE)",
+				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "11S\n42N");
 	}
 
@@ -468,7 +470,9 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(4,7)");
-		Assert.assertEquals("34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO)", partida.getCidades());
+		Assert.assertEquals(
+				"34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO)",
+				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "34S14S\n30N24O");
 	}
 
@@ -538,6 +542,50 @@ public class CidadeTeste extends JogoTest {
 				"30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO) 08(NO-PRETO,SO-PRETO) 08(SO-PRETO,SE-PRETO) 08(SE-PRETO,NE-PRETO) 36(NO-AZUL,NE-AZUL)",
 				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "36L30L24S\n 08N");
+
+	}
+
+	/**
+	 * Caso de teste 16 Partida cidade mista e 4 jogadores.
+	 */
+
+	public void partidaCom4JogadoreCidadeMista() {
+		mockarTiles(tiles, t30, t24, t08, t36, t14, t31);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO, PRETO, AZUL);
+		partida.finalizarTurno();
+
+		// Amarelo
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,7); PRETO(0,7); AZUL(0,7);");
+		partida.finalizarTurno();
+		// Vermelho
+		partida.posicionarTile(t30, LESTE);
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,7) AZUL(0,7);");
+		partida.finalizarTurno();
+		// Preto
+		girar(partida, 3);
+		partida.posicionarTile(t24, SUL);
+		partida.posicionarMeepleCidade(SUL);
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6) AZUL(0,7);");
+		partida.finalizarTurno();
+		// Azul
+		partida.posicionarTile(t30, OESTE);
+		partida.posicionarMeepleCidade(NORTE);
+		partida.finalizarTurno();
+		// AMARELO
+		girar(partida, 3);
+		partida.posicionarTile(t24, NORTE);
+		partida.finalizarTurno();
+		// VERMELHO
+		partida.posicionarTile(t30, NORTE);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(4,7); PRETO(1,6) AZUL(1,6);");
+		Assert.assertEquals(
+				"30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO) 08(NO-PRETO,SO-PRETO) 08(SO-PRETO,SE-PRETO) 08(SE-PRETO,NE-PRETO) 36(NO-AZUL,NE-AZUL) 14(NO,SO) 14(SO,SE) 31(SO,SE) 31(SE,NE)",
+				partida.getCidades());
+		verificarRelatorioTabuleiro(partida, " 31S14S\n36L30L\n  08N");
 
 	}
 
