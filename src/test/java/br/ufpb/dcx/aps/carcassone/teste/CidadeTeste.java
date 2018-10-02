@@ -353,7 +353,7 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "01L", "Tile_Posicionado");
 
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHOR(0,7);");
-		Assert.assertEquals("01(NO,NE) 11(NE,SE) 11(SE,SO) 11(SO,NO) 19(NO,SE) 20(SO,NO) 21(NO,NE) 22(NE,SE) ",
+		Assert.assertEquals("01(NO-AMARELO,NE-AMARELO) 11(NE,SE) 11(SE,SO) 11(SO,NO) 19(NO,SE) 20(SO,NO) 21(NO,NE) 22(NE,SE) ",
 				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, " 19S\n20L01L21\n 22");
 
@@ -378,7 +378,7 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,6); VERMELHOR(0,6);");
-		Assert.assertEquals("11(NO,NE) 11(SO,SE) 42(NO,NE) 42(SO,SE)", partida.getCidades());
+		Assert.assertEquals("11(NO-AMARELO,NE-AMARELO) 11(SO-VERMELHO,SE-VERMELHO) 42(NO,NE) 42(SO,SE)", partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "11S\n42N");
 	}
 
@@ -402,7 +402,7 @@ public class CidadeTeste extends JogoTest {
 		partida.posicionarMeepleCidade(OESTE);// Jogador 2 posiciona meeple
 		partida.finalizarTurno(); // vermelho
 
-		Assert.assertEquals("(06(SO,SE) 02(NO,NE) 42(NE,SE)", partida.getCidades());
+		Assert.assertEquals("06(SO-VERMELHO,SE-VERMELHO) 02(NO-AMARELO,NE-AMARELO) 42(NE,SE)", partida.getCidades());
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
 		verificarRelatorioTabuleiro(partida, "06S\n02L42");
 	}
@@ -428,7 +428,7 @@ public class CidadeTeste extends JogoTest {
 		partida.posicionarMeepleCidade(OESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // amarelo
 
-		Assert.assertEquals("(06(SO,SE) 02(NO,NE) 42(NE,SE)", partida.getCidades());
+		Assert.assertEquals("06(SO-VERMELHO,SE-VERMELHO) 02(NO-AMARELO,NE-AMARELO) 42(NE,SE)", partida.getCidades());
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(0,7)");
 		verificarRelatorioTabuleiro(partida, "06S\n02L42");
 		// 11(NO,NE) 11(SO,SE) 42(NO,NE) 42(SO,SE)
@@ -468,7 +468,7 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(4,7)");
-		Assert.assertEquals("34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO,NE) 24(NO,NE)", partida.getCidades());
+		Assert.assertEquals("34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO-AMARELO,NE-AMARELO) 24(NO-VERMELHO,NE-VERMELHO)", partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "34S14S\n30N24O");
 	}
 
