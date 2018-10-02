@@ -145,8 +145,8 @@ public class CidadeTeste extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 04 Verificar cidade antes e depois de colocar um Meeple em
-	 * uma cidade.
+	 * Caso de tese 04 Verificar cidade antes e depois de colocar um Meeple em uma
+	 * cidade.
 	 */
 
 	@Test
@@ -174,8 +174,8 @@ public class CidadeTeste extends JogoTest {
 	}
 
 	/**
-	 * Caso de tese 05 Verificar cidades antes e depois de colocar um Meeple em
-	 * uma cidade.
+	 * Caso de tese 05 Verificar cidades antes e depois de colocar um Meeple em uma
+	 * cidade.
 	 * 
 	 * Esse caso de teste faz a verificacao para 2 jogadores o anterior so fazia
 	 * para um jogador.
@@ -390,15 +390,21 @@ public class CidadeTeste extends JogoTest {
 	public void pontuacaoParaCidadeComEmpateDeQuantidadeDeMeeples() {
 		mockarTiles(tiles, t06, t02, t42);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
 		partida.posicionarMeepleCidade(SUL);// Jogador 1 posiciona meeple
-											// amarelo
+		partida.finalizarTurno(); // amarelo
+
 		partida.posicionarTile(t06, NORTE);
+		partida.finalizarTurno();
+
 		partida.posicionarTile(t02, OESTE);
 		partida.posicionarMeepleCidade(OESTE);// Jogador 2 posiciona meeple
-												// vermelho
-		Assert.assertEquals("(06(S,S-AMARELO) 02(N) 42(O,O-VERMELHO) ", partida.getCidades());
-		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
+		partida.finalizarTurno(); // vermelho
+
+		Assert.assertEquals("(06(SO,SE) 02(NO,NE) 42(NE,SE)", partida.getCidades());
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
+		verificarRelatorioTabuleiro(partida, "06S\n02L42");
 	}
 
 	/**
@@ -420,43 +426,10 @@ public class CidadeTeste extends JogoTest {
 		partida.posicionarMeepleCidade(OESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // amarelo
 
-		Assert.assertEquals("(06(S,S-AMARELO) 02(N) 42(O,O-VERMELHO) ", partida.getCidades());
-		ocorreExcecaoJogo(() -> partida.finalizarTurno(), "Ao finalizar turno nao retrou o meeple");
+		Assert.assertEquals("(06(SO,SE) 02(NO,NE) 42(NE,SE)", partida.getCidades());
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(0,7)");
-	}
-
-	/**
-	 * Caso de teste 13 cidade pertencente a 2 jogadores
-	 */
-	@Test
-	public void cidadeDeDoisJogadores() {
-		mockarTiles(tiles, t30, t31, t24, t72, t01);
-		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		partida.posicionarTile(t30, NORTE);
-		partida.posicionarMeepleCidade(SUL);
-		partida.finalizarTurno();
-
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
-
-		partida.posicionarTile(t30, LESTE);
-		partida.finalizarTurno();
-
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
-
-		partida.posicionarTile(t24, SUL);
-		partida.posicionarMeepleCidade(NORTE);
-		partida.finalizarTurno();
-
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
-
-		partida.posicionarTile(t31, LESTE);
-		partida.finalizarTurno();
-
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
-
-		Assert.assertEquals("30(N) 11(S-AMARELO,L) 24(N-VERMELHO) 01(N,L,S,O )", partida.getCidades());
-		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(8,6); VERMELHO(8,6)");
-
+		verificarRelatorioTabuleiro(partida, "06S\n02L42");
+		// 11(NO,NE) 11(SO,SE) 42(NO,NE) 42(SO,SE)
 	}
 
 	private void girar(Partida partida, int quantidade) {
