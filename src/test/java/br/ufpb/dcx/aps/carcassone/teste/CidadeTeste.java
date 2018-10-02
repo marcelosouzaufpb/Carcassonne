@@ -433,7 +433,7 @@ public class CidadeTeste extends JogoTest {
 	}
 
 	private void girar(Partida partida, int quantidade) {
-		for (int i = 0; i < quantidade; i++) {
+		for (int i = 0; i < quantidade; i++)  {
 			partida.girarTile();
 		}
 	}
