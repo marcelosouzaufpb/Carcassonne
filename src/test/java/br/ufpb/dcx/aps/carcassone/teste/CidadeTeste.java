@@ -19,6 +19,7 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t22;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t24;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t30;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t31;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t34;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t39;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t42;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t64;
@@ -62,9 +63,9 @@ public class CidadeTeste extends JogoTest {
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
 		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
-		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(1,6); VERMELHOR(0,7)");
 		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 		verificarRelatorioTabuleiro(partida, "30N");
@@ -139,7 +140,7 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "11S", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
-		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHOR(0,7);");
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(2,7); VERMELHOR(0,7);");
 		verificarRelatorioTabuleiro(partida, "11S\n30N");
 
 	}
@@ -167,8 +168,7 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 		Assert.assertEquals("11(NO,NE) 11(SO,SE) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 
-		Assert.assertEquals("11(NO,NE)\\N11(SO,SE) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
-		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(8,6); VERMELHOR(0,7);");
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(3,6); VERMELHOR(2,7);");
 		verificarRelatorioTabuleiro(partida, "11S\n30N");
 
 	}
@@ -192,8 +192,8 @@ public class CidadeTeste extends JogoTest {
 
 		partida.posicionarMeepleCidade(NORTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
 		partida.finalizarTurno();
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
 
 		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 
@@ -201,14 +201,12 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
 		partida.posicionarMeepleCidade(SUL);
 		verificarRelatorioTurno(partida, "VERMELHO", "11S", "MEEPLE_POSICIONADO");
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,6);");
 		partida.finalizarTurno();
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,6);");
 
 		Assert.assertEquals("11(NO,NE) 11(SO-VERMELHO,SE-VERMELHO) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 
-		Assert.assertEquals("11(NO,NE)\\N11(SO-VERMELHO,SE-VERMELHO) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHO(0,6);");
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
 		verificarRelatorioTabuleiro(partida, "11S\n30N");
 
 	}
@@ -227,8 +225,8 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7);");
 		partida.posicionarMeepleCidade(NORTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
 		partida.finalizarTurno();
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
 
 		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 
@@ -236,8 +234,8 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
 		partida.posicionarMeepleCidade(NORTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "11N", "MEEPLE_POSICIONADO");
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,6);");
 		partida.finalizarTurno();
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,6);");
 
 		Assert.assertEquals("11(NO,NE) 11(SO-VERMELHO,SE-VERMELHO) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
 
@@ -251,14 +249,12 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "VERMELHO", "64L", "Tile_Posicionado");
 		partida.posicionarMeepleCidade(NORTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "39N", "MEEPLE_POSICIONADO");
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,5);");
 		partida.finalizarTurno();
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,5);");
 
 		Assert.assertEquals(
 				"11(NO,NE) 11(SO-VERMELHO,SE-VERMELHO) 30(NO-AMARELO,NE-AMARELO 64(NO-VERMELHOR,NE-VERMELHO))",
 				partida.getCidades());
-
-		ocorreExcecaoJogo(() -> partida.relatorioTurno(), "Partida finalizada");
 		verificarRelatorioTabuleiro(partida, "11S\n30L64L39N");
 	}
 
@@ -273,9 +269,9 @@ public class CidadeTeste extends JogoTest {
 
 		partida.posicionarMeepleCidade(NORTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
+		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
 		Assert.assertEquals("30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
-		partida.finalizarTurno();
 
 		partida.posicionarTile(t30, NORTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
@@ -415,6 +411,8 @@ public class CidadeTeste extends JogoTest {
 	public void pontuacaoParaCidadeOndeUmJogadorTemMaisMeeplesNaCidade() {
 		mockarTiles(tiles, t06, t02, t42);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
 		partida.posicionarMeepleCidade(SUL);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // amarelo
 
@@ -432,8 +430,46 @@ public class CidadeTeste extends JogoTest {
 		// 11(NO,NE) 11(SO,SE) 42(NO,NE) 42(SO,SE)
 	}
 
+	/**
+	 * Caso de teste 13 Duas cidades separadas cada uma pertence a um jogador mas
+	 * elas se encontram formando uma só cidade
+	 */
+
+	public void cidadesSeparadasQueSeEncontram() {
+		mockarTiles(tiles, t30, t24, t14, t34);
+		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
+
+		// A
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
+		partida.finalizarTurno();
+
+		// V
+		partida.posicionarTile(t30, LESTE);
+		verificarRelatorioTurno(partida, "AMARELO", "30L", "Tile_Posicionado");
+		partida.posicionarMeepleCidade(NORTE);
+		verificarRelatorioTurno(partida, "VERMELHO", "24N", "MEEPLE_POSICIONADO");
+		partida.finalizarTurno();
+
+		// A
+		girar(partida, 3);
+		partida.posicionarTile(t24, NORTE);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,6);");
+
+		// V
+		partida.posicionarTile(t30, NORTE);
+		partida.finalizarTurno();
+
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(4,7); VERMELHOR(4,7)");
+		Assert.assertEquals("34(SO,SE) 34(NE,SE) 14(NO,SO) 14(SO,SE) 30(NO,NE) 24(NO,NE)", partida.getCidades());
+		verificarRelatorioTabuleiro(partida, "34S14S\n30N24O");
+	}
+
 	private void girar(Partida partida, int quantidade) {
-		for (int i = 0; i < quantidade; i++)  {
+		for (int i = 0; i < quantidade; i++) {
 			partida.girarTile();
 		}
 	}
