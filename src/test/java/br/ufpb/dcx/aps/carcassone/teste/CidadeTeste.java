@@ -57,6 +57,10 @@ public class CidadeTeste extends JogoTest {
 
 	/**
 	 * Caso de Teste 00 Posicionar um Meeple em uma Cidade.
+	 * 
+	 * Esse caso de teste se preocupa em adicionar um meeple na peça inicial do jogo,
+	 *Fazendo verificações de posicionamento e de contagem de pontos.
+
 	 */
 
 	@Test
@@ -78,8 +82,9 @@ public class CidadeTeste extends JogoTest {
 
 	/**
 	 * Caso de Teste 01 Posicionar um Meeple onde não tem cidade.
+	 * Esse caso como anterior de teste se preocupa em adicionar um 
+	 * meeple em um local onde não a cidade
 	 * 
-	 * Esse caso de teste so tem um tile
 	 */
 	@Test
 	public void posicionarMeepleCidadeSemCidade() {
@@ -100,7 +105,9 @@ public class CidadeTeste extends JogoTest {
 	/**
 	 * Caso de Teste 02 Posicionar um Meeple onde não tem cidade.
 	 * 
-	 * Esse caso de teste é composto de 2 tile e um Meeple
+	 * Esse caso de teste  como anterior de teste se 
+	 * preocupa em adicionar um meeple em um local onde não a cidade, a diferença desse
+	 *  caso para o anterior é que ele tem 2 tiles, um tile a mais que o anterior .
 	 */
 	@Test
 	public void posicionarMeepleCidadeSemCidade2() {
@@ -124,7 +131,7 @@ public class CidadeTeste extends JogoTest {
 	/**
 	 * Caso de teste 03 Cidade com 2 tiles e um meeple cidade.
 	 *
-	 * Esse teste faz a comparacao do final da partida
+	 * Esse caso de teste se preocupa com o resultado final da partida
 	 */
 
 	@Test
