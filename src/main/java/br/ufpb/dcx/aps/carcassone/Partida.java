@@ -1,5 +1,7 @@
 package br.ufpb.dcx.aps.carcassone;
 
+import java.util.LinkedList;
+
 import br.ufpb.dcx.aps.carcassone.tabuleiro.TabuleiroFlexivel;
 import br.ufpb.dcx.aps.carcassone.tabuleiro.Tile;
 
@@ -12,6 +14,8 @@ public class Partida {
 	Estado estadoDaPartida; // Variável responsável pelo estado da partida se encontra
 	Jogador[] jogadores; // Vetor com os jogadores da partida
 	int indiceDoJogador = 0; // Índice que representa o jogador da vez
+	
+	LinkedList<Tile> tilesJogados = new LinkedList<Tile>(); //Lista que vai guarda os tiles jogados na partida
 
 	/*
 	 * Construtor que inicializa a partida atribuindo a cada jogar sua respectiva
@@ -24,8 +28,8 @@ public class Partida {
 		pegarProximoTile(); // Função que pega o próximo tile na bolça de tiles
 		addCorJogador(sequencia); // funcao que atribui cores aos jogadores
 		estadoDaPartida = Estado.PARTIDA_ANDAMENTO; // mudando o estado da partida
-		tabuleiro.adicionarPrimeiroTile(proximoTile); // dicionando ao tabuleiro a peça do jogo
-
+		tabuleiro.adicionarPrimeiroTile(tilesJogados.getFirst()); // dicionando ao tabuleiro a peça do jogo
+		pegarProximoTile();
 	}
 
 	/*
@@ -33,7 +37,6 @@ public class Partida {
 	 */
 	public String relatorioPartida() {
 		String relatorio = "Status: " + estadoDaPartida + "\nJogadores: " + relatorioJogador();
-
 		return relatorio;
 	}
 
@@ -42,7 +45,7 @@ public class Partida {
 		verificarFimDaPartida();
 		Jogador proximoJogador = jogadores[indiceDoJogador % jogadores.length];
 		// String que retorna o relatório do tudo
-		String relatorio = "Jogador: " + proximoJogador.getCor() + "\nTile: " + proximoTile + "\nStatus: "
+		String relatorio = "Jogador: " + proximoJogador.getCor() + "\nTile: " + tilesJogados.getLast() + "\nStatus: "
 				+ estadoDoTurno;
 		return relatorio;
 	}
@@ -77,6 +80,7 @@ public class Partida {
 		if (proximoTile != null) {
 			proximoTile.reset();
 		}
+		tilesJogados.add(proximoTile);
 	}
 
 	/*
@@ -99,7 +103,7 @@ public class Partida {
 	 */
 	public Partida posicionarTile(Tile tileReferencia, Lado ladoTileReferencia) {
 		verificarTilePosicionado(); // verificando estado do turno
-		tabuleiro.posicionar(tileReferencia, ladoTileReferencia, proximoTile); // posicionando tile no tabuleiro
+		tabuleiro.posicionar(tileReferencia, ladoTileReferencia, tilesJogados.getLast()); // posicionando tile no tabuleiro
 		estadoDoTurno = Estado.TILE_POSICIONADO;
 		return this;
 	}
@@ -112,9 +116,51 @@ public class Partida {
 		return this;
 	}
 
-	public Partida posicionarMeepleCidade(Lado lado) {
-		/***/
+	public Partida posicionarMeepleCidade(Vertice vertice) {
+		Tile tile = tilesJogados.getLast();
+
+		if (tilesJogados.size() == 2 && tile == null) {
+			throw new ExcecaoJogo("Impossível posicionar meeple na peça inicial");
+		}
+		verificarSeTemCidade(tile, vertice);
+
+		Jogador jogador = jogadores[indiceDoJogador % jogadores.length];
+		jogador.tirarMeeple();
+		Meeple meeple = new Meeple(vertice, jogador.getCor(), tilesJogados.getLast());
+		tabuleiro.posicionarMeeple(meeple);
+		estadoDoTurno = Estado.MEEPLE_POSICIONADO;
 		return this;
+	}
+	
+	private void verificarSeTemCidade(Tile tile, Vertice vertice) {
+		TileComVertice t = (TileComVertice) tile;
+		switch (vertice) {
+		case NOROESTE:
+			if (t.getLadoNoroeste() != TipoLadoCarcassonne.CIDADE) {
+				throw new ExcecaoJogo("Impossível posicionar meeple em cidae pois o vertice Noroeste do tile "
+						+ tile.getId() + " é totalmente ocupado por " + t.getLadoNoroeste().getAbreviacao());
+			}
+			break;
+		case NORDESTE:
+			if (t.getLadoNordeste() != TipoLadoCarcassonne.CIDADE) {
+				throw new ExcecaoJogo("Impossível posicionar meeple em cidae pois o vertice Nordeste do tile "
+						+ tile.getId() + " é totalmente ocupado por " + t.getLadoNordeste().getAbreviacao());
+			}
+			break;
+		case SUDESTE:
+			if (t.getLadoSudeste() != TipoLadoCarcassonne.CIDADE) {
+				throw new ExcecaoJogo("Impossível posicionar meeple em cidae pois o vertice Sudeste do tile "
+						+ tile.getId() + " é totalmente ocupado por " + t.getLadoSudeste().getAbreviacao());
+			}
+			break;
+		case SUDOESTE:
+			if (t.getLadoSudoeste() != TipoLadoCarcassonne.CIDADE) {
+				throw new ExcecaoJogo("Impossível posicionar meeple em cidae pois o vertice Sudoeste do tile "
+						+ tile.getId() + " é totalmente ocupado por " + t.getLadoSudoeste().getAbreviacao());
+			}
+
+		}
+
 	}
 
 	public Partida posicionarMeepleMosteiro() {

@@ -585,48 +585,6 @@ public class JogoTest {
 		}
 	}
 
-	/**
-	 * Caso de teste 26
-	 * 
-	 * Posicionar meeple em sem Cidade
-	 */
-	@Test
-	public void posicionarMeepleEmCidadedSemCidade() {
-		mockarTiles(tiles, t30, t49);
-		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		partida.finalizarTurno();
-		girar(partida, 2);
-		partida.posicionarTile(t30, SUL);
-
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(SUL),
-				"Impossível posicionar meeple em Cidade pois o lado Sul do tile 49 é Campo");
-
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(NORTE),
-				"Impossível posicionar meeple em Cidade pois o lado Norte do tile 49 é Estrada");
-	}
-
-	/**
-	 * Caso de teste 27
-	 * 
-	 * Posicionar meeple em cidade
-	 */
-	@Test
-	public void posicionarMeepleEmCidade() {
-		mockarTiles(tiles, t30, t11);
-		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		partida.finalizarTurno();
-		girar(partida, 1);
-		partida.posicionarTile(t30, NORTE);
-		
-		partida.posicionarMeepleCidade(SUL);
-		Assert.assertEquals("30(N) 11(S-AMARELO)", partida.getCidades());
-
-		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHO(0,7)");
-		verificarRelatorioTurno(partida, "AMARELO", "30S", "Tile_Posicionado");
-		verificarRelatorioTabuleiro(partida, "30N11S");
-
-	}
-
 	private void ocorreExcecaoJogo(ExceptionThrower et, String mensagem) {
 		ocorreExcecao(et).tipoExcecao(ExcecaoJogo.class).mensagem(mensagem);
 	}
