@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import br.ufpb.dcx.aps.carcassone.ExcecaoJogo;
 import br.ufpb.dcx.aps.carcassone.Lado;
+import br.ufpb.dcx.aps.carcassone.Meeple;
 
 public class TabuleiroFlexivel {
 
@@ -28,9 +29,9 @@ public class TabuleiroFlexivel {
 		celulaInicial = new CelulaTabuleiro(tile, 0, 0);
 		extremoNorte = extremoLeste = extremoSul = extremoOeste = celulaInicial;
 	}
-	
-	//Verificar o lado tile em que o usuário deseja posicionar um novo tile.
-	
+
+	// Verificar o lado tile em que o usuário deseja posicionar um novo tile.
+
 	public void posicionar(Tile tileReferencia, Lado ladoTileReferencia, Tile novoTile) {
 		CelulaTabuleiro celulaReferencia = validarTiles(tileReferencia, novoTile);
 
@@ -71,7 +72,7 @@ public class TabuleiroFlexivel {
 
 		return celulaReferencia;
 	}
-	
+
 	// Verificar se o norte do tile estar disponível para inserir um novo tile.
 
 	private void posicionarNorte(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
@@ -89,7 +90,7 @@ public class TabuleiroFlexivel {
 			extremoNorte = novaCelula;
 		}
 	}
-	// Verificar se o leste do tile estar disponível para inserir um novo tile. 
+	// Verificar se o leste do tile estar disponível para inserir um novo tile.
 
 	private void posicionarLeste(Tile tileNovo, CelulaTabuleiro celulaReferencia, CelulaTabuleiro[][] tabuleiro) {
 		celulaOcupada(celulaReferencia, tabuleiro, celulaReferencia.getX() + 1, celulaReferencia.getY(), "LESTE");
@@ -160,7 +161,7 @@ public class TabuleiroFlexivel {
 					+ " já está ocupada pelo tile " + tabuleiro[xAjustado][yAjustado].getTile().getId());
 		}
 	}
-	
+
 	// Verificar se os tiles são compatíveis.
 
 	private void verificarTipoLado(Tile tileNovo, Tile tileReferencia, String ladoReferencia,
@@ -220,7 +221,7 @@ public class TabuleiroFlexivel {
 
 	@Override
 	public String toString() {
-		
+
 		if (extremoLeste == null) {
 			return "";
 		}
@@ -266,7 +267,32 @@ public class TabuleiroFlexivel {
 		montarTabuleiro(celulaAtual.getSul(), tabuleiro, celulasVisitadas);
 		montarTabuleiro(celulaAtual.getOeste(), tabuleiro, celulasVisitadas);
 	}
-}
+
+	public void posicionarMeeple(Meeple meeple) {
+		switch (meeple.getLado()) {
+		case NORDESTE:
+			posicionarMeepleCidade(meeple);
+			break;
+		case NOROESTE:
+			posicionarMeepleCidade(meeple);
+			break;
+		case SUDESTE:
+			posicionarMeepleCidade(meeple);
+			break;
+		case SUDOESTE:
+			posicionarMeepleCidade(meeple);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	private void posicionarMeepleCidade(Meeple meeple) {
+		CelulaTabuleiro celulaReferencial = encontrarCelula(celulaInicial, meeple.getReferencia());
+
+		celulaReferencial.setMeeple(meeple);
+	}
 
 class CelulaTabuleiro {
 
