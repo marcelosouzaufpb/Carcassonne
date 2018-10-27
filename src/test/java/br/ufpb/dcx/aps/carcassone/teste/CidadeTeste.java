@@ -238,7 +238,7 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7);");
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
@@ -247,7 +247,7 @@ public class CidadeTeste extends JogoTest {
 
 		partida.posicionarTile(t30, NORTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NOROESTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "11N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,6);");
@@ -262,7 +262,7 @@ public class CidadeTeste extends JogoTest {
 
 		partida.posicionarTile(t64, LESTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "64L", "Tile_Posicionado");
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NOROESTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "39N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,5);");
@@ -282,7 +282,7 @@ public class CidadeTeste extends JogoTest {
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
 
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NOROESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,6); VERMELHOR(0,7);");
@@ -291,7 +291,7 @@ public class CidadeTeste extends JogoTest {
 		partida.posicionarTile(t30, NORTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "30N", "Tile_Posicionado");
 		Assert.assertEquals("11(NO,NE) 11(SO,SE) 30(NO-AMARELO,NE-AMARELO)", partida.getCidades());
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(SUL),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(SUDOESTE),
 				"Impossível posicionar meeple pois a cidade já está ocupada pelo meeple AMARELO no lado SUL do tile 11");
 
 	}
@@ -307,7 +307,7 @@ public class CidadeTeste extends JogoTest {
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7);");
 
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "14N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
