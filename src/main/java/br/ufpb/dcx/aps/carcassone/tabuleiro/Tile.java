@@ -34,7 +34,7 @@ public class Tile {
 		return tipoTile;
 	}
 
-	Lado getOrientacao() {
+	protected Lado getOrientacao() {
 		return orientacao;
 	}
 

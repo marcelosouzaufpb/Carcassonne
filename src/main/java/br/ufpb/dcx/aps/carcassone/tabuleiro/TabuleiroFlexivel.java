@@ -296,100 +296,110 @@ public class TabuleiroFlexivel {
 
 class CelulaTabuleiro {
 
-	private Tile tile;
-	private CelulaTabuleiro norte, sul, leste, oeste;
-	private int x, y;
+		private Tile tile;
+		private CelulaTabuleiro norte, sul, leste, oeste;
+		private int x, y;
+		private Meeple meeplePosicionado = null;
 
-	public static CelulaTabuleiro celulaVazia(int x, int y) {
-		return new CelulaTabuleiro(null, x, y);
-	}
-
-	public CelulaTabuleiro(Tile tile, int x, int y) {
-		this.tile = tile;
-		this.x = x;
-		this.y = y;
-	}
-
-	public Tile getTile() {
-		return tile;
-	}
-
-	public void setTile(Tile tile) {
-		this.tile = tile;
-	}
-
-	public CelulaTabuleiro getNorte() {
-		return norte;
-	}
-
-	public void setNorte(CelulaTabuleiro norte) {
-		this.norte = norte;
-	}
-
-	public CelulaTabuleiro getSul() {
-		return sul;
-	}
-
-	public void setSul(CelulaTabuleiro sul) {
-		this.sul = sul;
-	}
-
-	public CelulaTabuleiro getLeste() {
-		return leste;
-	}
-
-	public void setLeste(CelulaTabuleiro leste) {
-		this.leste = leste;
-	}
-
-	public CelulaTabuleiro getOeste() {
-		return oeste;
-	}
-
-	public void setOeste(CelulaTabuleiro oeste) {
-		this.oeste = oeste;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((tile == null) ? 0 : tile.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CelulaTabuleiro other = (CelulaTabuleiro) obj;
-		if (tile == null) {
-			if (other.tile != null)
-				return false;
-		} else if (!tile.equals(other.tile))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		if (tile == null) {
-			return "";
+		public  CelulaTabuleiro celulaVazia(int x, int y) {
+			return new CelulaTabuleiro(null, x, y);
 		}
 
-		return tile.getId() + x + y;
-	}
+		public CelulaTabuleiro(Tile tile, int x, int y) {
+			this.tile = tile;
+			this.x = x;
+			this.y = y;
+		}
 
+		public Tile getTile() {
+			return tile;
+		}
+
+		public void setTile(Tile tile) {
+			this.tile = tile;
+		}
+
+		public Meeple getMeeple() {
+			return meeplePosicionado;
+		}
+
+		public void setMeeple(Meeple meeple) {
+			meeplePosicionado = meeple;
+		}
+
+		public CelulaTabuleiro getNorte() {
+			return norte;
+		}
+
+		public void setNorte(CelulaTabuleiro norte) {
+			this.norte = norte;
+		}
+
+		public CelulaTabuleiro getSul() {
+			return sul;
+		}
+
+		public void setSul(CelulaTabuleiro sul) {
+			this.sul = sul;
+		}
+
+		public CelulaTabuleiro getLeste() {
+			return leste;
+		}
+
+		public void setLeste(CelulaTabuleiro leste) {
+			this.leste = leste;
+		}
+
+		public CelulaTabuleiro getOeste() {
+			return oeste;
+		}
+
+		public void setOeste(CelulaTabuleiro oeste) {
+			this.oeste = oeste;
+		}
+
+		public int getX() {
+			return x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((tile == null) ? 0 : tile.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CelulaTabuleiro other = (CelulaTabuleiro) obj;
+			if (tile == null) {
+				if (other.tile != null)
+					return false;
+			} else if (!tile.equals(other.tile))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			if (tile == null) {
+				return "";
+			}
+
+			return tile.getId() + x + y;
+		}
+
+	}
 }
