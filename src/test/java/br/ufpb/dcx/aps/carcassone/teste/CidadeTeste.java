@@ -496,19 +496,19 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		// Amarelo
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,7); PRETO(0,7);");
 		partida.finalizarTurno();
 		// Vermelho
 		partida.posicionarTile(t30, LESTE);
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,7);");
 		partida.finalizarTurno();
 		// Preto
 		girar(partida, 3);
 		//As cidades são ligadas pelos vértices no getCidades mais no tabuleiro elas são ligadas por (N,S,L,O) isso ta correto? O Girar ele é do oeste para leste ?
 		partida.posicionarTile(t24, SUL);
-		partida.posicionarMeepleCidade(SUL);
+		partida.posicionarMeepleCidade(SUDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6);");
 		partida.finalizarTurno();
 
@@ -532,23 +532,23 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		// Amarelo
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NOROESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,7); PRETO(0,7); AZUL(0,7);");
 		partida.finalizarTurno();
 		// Vermelho
 		partida.posicionarTile(t30, LESTE);
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(SUDOESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,7) AZUL(0,7);");
 		partida.finalizarTurno();
 		// Preto
 		girar(partida, 3);
 		partida.posicionarTile(t24, SUL);
-		partida.posicionarMeepleCidade(SUL);
+		partida.posicionarMeepleCidade(SUDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6) AZUL(0,7);");
 		partida.finalizarTurno();
 		// Azul
 		partida.posicionarTile(t30, OESTE);
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(SUDOESTE);
 		partida.finalizarTurno();
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6) AZUL(0,6);");
 
@@ -570,23 +570,23 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		// Amarelo
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,7); PRETO(0,7); AZUL(0,7);");
 		partida.finalizarTurno();
 		// Vermelho
 		partida.posicionarTile(t30, LESTE);
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,7) AZUL(0,7);");
 		partida.finalizarTurno();
 		// Preto
 		girar(partida, 3);
 		partida.posicionarTile(t24, SUL);
-		partida.posicionarMeepleCidade(SUL);
+		partida.posicionarMeepleCidade(SUDOESTE);
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(0,6); VERMELHOR(0,6); PRETO(0,6) AZUL(0,7);");
 		partida.finalizarTurno();
 		// Azul
 		partida.posicionarTile(t30, OESTE);
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NOROESTE);
 		partida.finalizarTurno();
 		// AMARELO
 		girar(partida, 3);
