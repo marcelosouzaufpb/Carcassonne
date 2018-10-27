@@ -430,15 +430,15 @@ public class CidadeTeste extends JogoTest {
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
 
-		partida.posicionarMeepleCidade(SUL);// Jogador 1 posiciona meeple
+		partida.posicionarMeepleCidade(SUDESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // amarelo
 
 		partida.posicionarTile(t06, NORTE);
-		partida.posicionarMeepleCidade(NORTE);// Jogador 2 posiciona meeple
+		partida.posicionarMeepleCidade(NORDESTE);// Jogador 2 posiciona meeple
 		partida.finalizarTurno(); // vermelho
 
 		partida.posicionarTile(t02, OESTE);
-		partida.posicionarMeepleCidade(OESTE);// Jogador 1 posiciona meeple
+		partida.posicionarMeepleCidade(NORDESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // amarelo
 
 		Assert.assertEquals("06(SO-VERMELHO,SE-VERMELHO) 02(NO-AMARELO,NE-AMARELO) 42(NE,SE)", partida.getCidades());
@@ -458,14 +458,14 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		// A
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
 		// V
 		partida.posicionarTile(t30, LESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30L", "Tile_Posicionado");
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioTurno(partida, "VERMELHO", "24N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
