@@ -7,6 +7,10 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.AZUL;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.LESTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.NORTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.OESTE;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.NORDESTE;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.NOROESTE;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.SUDESTE;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.SUDOESTE;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.SUL;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t01;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t02;
@@ -70,7 +74,7 @@ public class CidadeTeste extends JogoTest {
 		partida.finalizarTurno();
 
 		verificarRelatorioPartida(partida, "Em_Andamento", "AMARELO(0,7); VERMELHOR(0,7)");
-		partida.posicionarMeepleCidade(NORTE);
+		partida.posicionarMeepleCidade(NORDESTE);
 		verificarRelatorioTurno(partida, "AMARELO", "30N", "MEEPLE_POSICIONADO");
 		partida.finalizarTurno();
 
@@ -94,10 +98,10 @@ public class CidadeTeste extends JogoTest {
 
 		Assert.assertEquals("30(NO,NE)", partida.getCidades());
 
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(OESTE),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(NOROESTE),
 				"Impossível posicionar meeple em cidade pois o lado leste do tile 30 é Estrada");
 
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(LESTE),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(NORDESTE),
 				"Impossível posicionar meeple em cidade pois o lado oeste do tile 30 é Estrada");
 
 	}
@@ -120,10 +124,10 @@ public class CidadeTeste extends JogoTest {
 
 		Assert.assertEquals("11(NO,NE) 11(SO,SE) 30(NO,NE)", partida.getCidades());
 
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(LESTE),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(NOROESTE),
 				"Impossível posicionar meeple em cidade pois o lado leste do tile 11 é Campo");
 
-		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(OESTE),
+		ocorreExcecaoJogo(() -> partida.posicionarMeepleCidade(SUDOESTE),
 				"Impossível posicionar meeple em cidade pois o lado oeste do tile 11 é Campo");
 
 	}
