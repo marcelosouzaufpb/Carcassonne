@@ -328,8 +328,8 @@ public class CidadeTeste extends JogoTest {
 		partida.posicionarMeepleCidade(SUDESTE);
 		partida.finalizarTurno();
 
-		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(1,6); VERMELHOR(1,6);");// ta sem pontuação
-		verificarRelatorioTabuleiro(partida, "11S\n42N");// aqui ta certo ?
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(1,6); VERMELHOR(1,6);");// 
+		verificarRelatorioTabuleiro(partida, "11S\n42N");
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class CidadeTeste extends JogoTest {
 		// Tile t19
 		partida.girarTile();// Cidade fica no leste
 		partida.posicionarTile(t45, SUL);
-		partida.posicionarMeepleCidade(NOROESTE);// Jogador 2 posiciona meeple
+		partida.posicionarMeepleCidade(NORDESTE);// Jogador 2 posiciona meeple
 		partida.finalizarTurno(); // vermelho
 		// Tile t14
 		partida.posicionarTile(t19, LESTE); // T14 NO LESTE DO T19
@@ -369,9 +369,10 @@ public class CidadeTeste extends JogoTest {
 	public void pontuacaoParaCidadeOndeUmJogadorTemMaisMeeplesNaCidade() {
 		mockarTiles(tiles, t19, t45, t20, t21, t02, t14);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
+		partida.finalizarTurno();
 		// T19 1
 		partida.girarTile();
-		partida.posicionarMeepleCidade(NOROESTE);// Jogador 1 posiciona meeple
+		partida.posicionarMeepleCidade(NORDESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
 		// T45 2
 		partida.posicionarTile(t19, NORTE);// SEM MEEPLES AQUI É UM CAMPO
@@ -379,7 +380,7 @@ public class CidadeTeste extends JogoTest {
 		// T20 3
 		partida.girarTile();
 		partida.posicionarTile(t19, SUL);
-		partida.posicionarMeepleCidade(NOROESTE);// Jogador 1 posiciona meeple
+		partida.posicionarMeepleCidade(NORDESTE);// Jogador 1 posiciona meeple
 		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
 		// T21 4
 		partida.girarTile();
@@ -391,13 +392,13 @@ public class CidadeTeste extends JogoTest {
 		partida.girarTile();
 		partida.girarTile();
 		partida.girarTile();
-		partida.posicionarTile(t19, SUL);
+		partida.posicionarTile(t21, SUL);
 		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
 		// T14 6
 		partida.posicionarTile(t02, SUL);
 		partida.finalizarTurno(); // FOI A VEZ DO VERMELHO
 
-		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(10,7); VERMELHOR(0,6)");
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(10,7); VERMELHOR(0,7)");
 		verificarRelatorioTabuleiro(partida, "45L21S\n19L02\n20L14");
 
 	}
