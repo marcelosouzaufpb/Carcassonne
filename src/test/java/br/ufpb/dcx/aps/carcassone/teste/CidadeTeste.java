@@ -261,7 +261,7 @@ public class CidadeTeste extends JogoTest {
 		verificarRelatorioTurno(partida, "AMARELO", "14N", "Tile_Posicionado");
 		partida.finalizarTurno();
 
-		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(0,7); VERMELHOR(0,7);");
+		verificarRelatorioPartida(partida, "Partida_Finalizada", "AMARELO(2,7); VERMELHOR(0,7);");
 		Assert.assertEquals("14(NO,SO) 14(NO-AMARELO,NE) 07(NE,SE) 07(NO,NE) 11(NO,NE) 11(SO SE)",
 				partida.getCidades());
 		verificarRelatorioTabuleiro(partida, " 07S\n11L14N");
