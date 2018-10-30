@@ -30,6 +30,7 @@ import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t34;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t36;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t39;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t42;
+import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t45;
 import static br.ufpb.dcx.aps.carcassone.TilesJogoBase.t64;
 import static br.ufpb.dcx.aps.carcassone.teste.Assertiva.ocorreExcecao;
 import static org.mockito.Mockito.mock;
@@ -338,23 +339,28 @@ public class CidadeTeste extends JogoTest {
 	 */
 	@Test
 	public void pontuacaoParaCidadeComEmpateDeQuantidadeDeMeeples() {
-		mockarTiles(tiles, t06, t02, t42);
+		mockarTiles(tiles, t11, t45, t19, t14);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
 		partida.finalizarTurno();
-
-		partida.posicionarMeepleCidade(SUDESTE);// Jogador 1 posiciona meeple
+		// Tile t11
+		partida.posicionarMeepleCidade(SUDESTE);// Jogador 1 posiciona meeple T11
 		partida.finalizarTurno(); // amarelo
-
-		partida.posicionarTile(t06, NORTE);
-		partida.finalizarTurno();
-
-		partida.posicionarTile(t02, OESTE);
-		partida.posicionarMeepleCidade(SUDOESTE);// Jogador 2 posiciona meeple
+		// Tile t45
+		partida.posicionarTile(t11, OESTE); // T45 NO OESTE DO T11, t45 é só campo
+		partida.finalizarTurno();// Jogador 2 não bota meeple
+		// Tile t19
+		partida.girarTile();// Cidade fica no leste
+		partida.posicionarTile(t45, SUL);
+		partida.posicionarMeepleCidade(NOROESTE);// Jogador 2 posiciona meeple
 		partida.finalizarTurno(); // vermelho
+		// Tile t14
+		partida.posicionarTile(t19, LESTE); // T14 NO LESTE DO T19
+		partida.finalizarTurno();// Jogador 1 não bota meeple
 
-		Assert.assertEquals("06(SO-VERMELHO,SE) 02(NO-AMARELO,NE) 42(NE,SE)", partida.getCidades());
+		// Assert.assertEquals("45(NE,SE,SO) 11(NO, SO-AMARELO,SE-AMARELO) 19(NO,
+		// NE-VERMELHO,SE-VERMELHO) 14(NO,SO,NE)", partida.getCidades());
 		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(6,7)");
-		verificarRelatorioTabuleiro(partida, "06S\n02L42");
+		verificarRelatorioTabuleiro(partida, "4511S\n19L14");
 	}
 
 	/**
@@ -363,25 +369,39 @@ public class CidadeTeste extends JogoTest {
 	 */
 	@Test
 	public void pontuacaoParaCidadeOndeUmJogadorTemMaisMeeplesNaCidade() {
-		mockarTiles(tiles, t06, t02, t42);
+		mockarTiles(tiles, t19, t45, t20, t21, t02, t14);
 		Partida partida = jogo.criarPartida(tiles, AMARELO, VERMELHO);
-		partida.finalizarTurno();
+		// T19 1
+		partida.girarTile();
+		partida.posicionarMeepleCidade(NOROESTE);// Jogador 1 posiciona meeple
+		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
+		// T45 2
+		partida.posicionarTile(t19, NORTE);// SEM MEEPLES AQUI É UM CAMPO
+		partida.finalizarTurno(); // FOI A VEZ DO VERMELHO
+		// T20 3
+		partida.girarTile();
+		partida.posicionarTile(t19, SUL);
+		partida.posicionarMeepleCidade(NOROESTE);// Jogador 1 posiciona meeple
+		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
+		// T21 4
+		partida.girarTile();
+		partida.girarTile();
+		partida.posicionarTile(t45, LESTE);
+		partida.posicionarMeepleCidade(SUDOESTE);// Jogador 2 posiciona meeple
+		partida.finalizarTurno(); // FOI A VEZ DO VERMELHO
+		// T02 5
+		partida.girarTile();
+		partida.girarTile();
+		partida.girarTile();
+		partida.posicionarTile(t19, SUL);
+		partida.finalizarTurno(); // FOI A VEZ DO AMARELO
+		// T14 6
+		partida.posicionarTile(t02, SUL);
+		partida.finalizarTurno(); // FOI A VEZ DO VERMELHO
 
-		partida.posicionarMeepleCidade(SUDESTE);// Jogador 1 posiciona meeple
-		partida.finalizarTurno(); // amarelo
+		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(10,7); VERMELHOR(0,6)");
+		verificarRelatorioTabuleiro(partida, "4521S\n19L02\n20L14");
 
-		partida.posicionarTile(t06, NORTE);
-		partida.posicionarMeepleCidade(NORDESTE);// Jogador 2 posiciona meeple
-		partida.finalizarTurno(); // vermelho
-
-		partida.posicionarTile(t02, OESTE);
-		partida.posicionarMeepleCidade(NORDESTE);// Jogador 1 posiciona meeple
-		partida.finalizarTurno(); // amarelo
-
-		Assert.assertEquals("06(SO-VERMELHO,SE) 02(NO-AMARELO,NE) 42(NE,SE)", partida.getCidades());
-		verificarRelatorioPartida(partida, "PTD_FINALIZADA", "AMARELO(6,7); VERMELHOR(0,7)");
-		verificarRelatorioTabuleiro(partida, "06S\n02L42");
-		// 11(NO,NE) 11(SO,SE) 42(NO,NE) 42(SO,SE)
 	}
 
 	/**
